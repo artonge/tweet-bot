@@ -1,0 +1,27 @@
+{
+  "name": "tweet-bot",
+  "version": "1.0.0",
+  "description": "twitter contests bot autoparticipante",
+  "main": "main.js",
+  "dependencies": {
+    "promise": "^7.0.4",
+    "twitter-node-client": "^0.0.6"
+  },
+  "devDependencies": {
+    "promise": "^7.0.4",
+    "twitter-node-client": "0.0.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artonge/tweet-bot.git"
+  },
+  "author": "artonge",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/artonge/tweet-bot/issues"
+  },
+  "homepage": "https://github.com/artonge/tweet-bot"
+}
