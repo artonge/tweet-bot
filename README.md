@@ -1,2 +1,2 @@
 # tweet-bot
-A bot that participate to twitter retweet contests.
+A bot that participates to twitter retweet contests.
