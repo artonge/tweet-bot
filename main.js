@@ -6,6 +6,7 @@ var Twitter = require('twitter-node-client').Twitter;
 
 
 function log(text, file) {
+  return; // prevent log, to remove if debug
   file = file || "log.json";
 
   file = "logs/"+file;
