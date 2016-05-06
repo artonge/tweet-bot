@@ -3,6 +3,7 @@ var http    = require('http');
 var Promise = require('promise');
 var Twitter = require('twitter-node-client').Twitter;
 
+var credentials = require('./credentials.js').credentials;
 
 
 function log(text, file) {
@@ -24,12 +25,7 @@ function error  (text) { log(text, "error.json"  ); }
 log("Session Started...");
 
 
-var twitter = new Twitter({
-  "consumerKey"       : "wTjQVxsCBL2e27K9P0OgoTRFR",
-  "consumerSecret"    : "zBQccjs2QsQBOOjT7iTEaFcy6Bw5uUPHluk0WUj8uODnA0vvt1",
-  "accessToken"       : "3421948445-phIcQHhckiZ9sChIKoNwW5hP8qFN9psxrzbZiuk",
-  "accessTokenSecret" : "CJUy3yDNYVMhKSEWLM6zXgBCYf3z6In2CyKedLVuAOuCd",
-});
+var twitter = new Twitter(credentials);
 
 
 
@@ -73,7 +69,7 @@ SEARCHS.forEach(function(search) {
       count++;
       engage(tweet);
 
-      //log(tweet.created_at, tweet.text);
+      log(tweet.created_at, tweet.text);
     });
 
     log(count + " tweets engaged");
