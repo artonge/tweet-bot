@@ -38,6 +38,8 @@ function retweet(tweet) {
 }
 
 function engage(tweet) {
+  if (tweet.retweeted_status) tweet = tweet.retweeted_status;
+  
   if (!tweet.retweeted) retweet(tweet);
 
   if (tweet.text.search(/follow/i) != -1) follow(tweet.user);
