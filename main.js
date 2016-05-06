@@ -71,7 +71,7 @@ SEARCHS.forEach(function(search) {
       count++;
       engage(tweet);
 
-      log(tweet.created_at, tweet.text);
+      //log(tweet.created_at, tweet.text);
     });
 
     log(count + " tweets engaged");
