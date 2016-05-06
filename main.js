@@ -44,7 +44,7 @@ function retweet(tweet) {
 function engage(tweet) {
   if (!tweet.retweeted) retweet(tweet);
 
-  if (tweet.text.search(/follow/i) === 0) follow(tweet.user);
+  if (tweet.text.search(/follow/i) != -1) follow(tweet.user);
 }
 
 
