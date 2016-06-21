@@ -49,9 +49,9 @@ function engage(tweet) {
 
 
 var SEARCHS = [
-  'retweet "a gagner" OR "à gagner" -vote',
-  'retweet to win -vote',
-  'RT concours'
+  'retweet "a gagner" OR "à gagner" -vote -steam',
+  'retweet to win -vote -steam',
+  'RT concours -steam -vote'
 ];
 
 var d = new Date();
