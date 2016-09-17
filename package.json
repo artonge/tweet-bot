@@ -5,13 +5,10 @@
   "main": "main.js",
   "dependencies": {
     "promise": "^7.0.4",
-    "twitter-node-client": "^0.0.6"
-  },
-  "devDependencies": {
-    "promise": "^7.0.4",
-    "twitter-node-client": "0.0.6"
+    "twitter": "^1.4.0"
   },
   "scripts": {
+    "start": "tsc; node dist/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
