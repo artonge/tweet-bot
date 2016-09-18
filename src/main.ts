@@ -1,6 +1,3 @@
-import * as http    from 'http';
-import * as Promise from 'promise';
-
 const Twitter = require('twitter');
 
 import { credentials } from './credentials';
