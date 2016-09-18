@@ -30,11 +30,11 @@ function canFollow() {
 }
 function follow(user) {
     if (user.following) {
-        console.log("Allready following");
+        log_1.error("Allready following");
         return;
     }
     if (!canFollow()) {
-        console.log("Follow limit reached");
+        log_1.error("Follow limit reached");
         return;
     }
     t_client.post('friendships/create', { user_id: user.id_str }, function (e, u, raw) {
