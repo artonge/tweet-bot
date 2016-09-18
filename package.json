@@ -4,7 +4,6 @@
   "description": "twitter contests bot autoparticipante",
   "main": "main.js",
   "dependencies": {
-    "promise": "^7.0.4",
     "twitter": "^1.4.0"
   },
   "scripts": {
