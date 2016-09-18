@@ -35,7 +35,7 @@ function follow(user) {
         if (e)
             log_1.error(e);
         else
-            log_1.log("Followed user");
+            console.log("Followed user");
     });
 }
 function unfollow(user) {
@@ -62,7 +62,7 @@ function unfollowBatch(name) {
 function retweet(tweet) {
     t_client.post('statuses/retweet', { id: tweet.id_str }, function (e, tweet, raw) {
         if (!e)
-            log_1.log("Retweeted");
+            console.log("Retweeted");
         else
             log_1.error(e);
     });
@@ -82,4 +82,4 @@ function engage(tweet) {
         follow(tweet.user);
     log_1.log("Done");
 }
-log_1.log("Streaming started");
+console.log("Streaming started");

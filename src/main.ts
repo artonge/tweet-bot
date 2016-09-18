@@ -51,7 +51,7 @@ function follow(user: any) {
 	if (!canFollow()) return;
 	t_client.post('friendships/create', {user_id: user.id},  function(e: any, user: any, raw: any) {
 		if (e) error(e);
-		else log("Followed user");
+		else console.log("Followed user");
 	});
 }
 
@@ -74,7 +74,7 @@ function unfollowBatch(name: any) {
 
 function retweet(tweet: any) {
 	t_client.post('statuses/retweet', {id: tweet.id_str},  function(e: any, tweet: any, raw: any) {
-		if (!e) log("Retweeted");
+		if (!e) console.log("Retweeted");
 		else error(e);
 	});
 }
@@ -94,4 +94,4 @@ function engage(tweet: any) {
 }
 
 
-log("Streaming started");
+console.log("Streaming started");
