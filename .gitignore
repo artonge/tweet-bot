@@ -2,3 +2,5 @@ logs
 node_modules
 typings
 logs
+src/credentials.ts
+dist/credentials.ts
