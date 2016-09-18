@@ -5,8 +5,7 @@ function log(text, file) {
     file = "logs/" + file;
     if (typeof text === "object")
         text = JSON.stringify(text);
-    fs.appendFile(file, "-------------------" + new Date() + "-------------------\n");
-    fs.appendFile(file, text + "\n");
+    fs.appendFile(file, new Date() + " | " + text + "\n");
 }
 exports.log = log;
 function success(text) { log(text, "success.json"); }

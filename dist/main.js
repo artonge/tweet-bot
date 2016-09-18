@@ -3,15 +3,16 @@ var Twitter = require('twitter');
 var credentials_1 = require('./credentials');
 var log_1 = require('./log');
 var SEARCHS = [
-    "retweet 'a gagner' OR 'à gagner' -vote -steam",
-    "retweet to win -vote -steam",
-    "RT concours -steam -vote"
-];
+    "retweet a gagner follow",
+    "retweet to win follow",
+    "RT to win follow",
+    "RT concours follow"
+].join(',');
 var FOLLOW_HISTORY = [];
 var WINDOW_DURATION = 15 * 60 * 1000;
 var t_client = new Twitter(credentials_1.credentials);
 setInterval(function () { unfollowBatch("tulipe_fragile"); }, WINDOW_DURATION);
-var stream = t_client.stream('statuses/filter', { track: SEARCHS.join(',') });
+var stream = t_client.stream('statuses/filter', { track: SEARCHS });
 stream.on('data', engage);
 stream.on('error', log_1.error);
 function isTweet(object) {
@@ -25,31 +26,36 @@ function canFollow() {
         if (time_diff < WINDOW_DURATION)
             return false;
     }
-    FOLLOW_HISTORY.push((new Date()).getTime());
     return true;
 }
 function follow(user) {
-    if (!canFollow())
+    if (user.following) {
+        console.log("Allready following");
         return;
-    t_client.post('friendships/create', { user_id: user.id }, function (e, user, raw) {
+    }
+    if (!canFollow()) {
+        console.log("Follow limit reached");
+        return;
+    }
+    t_client.post('friendships/create', { user_id: user.id_str }, function (e, u, raw) {
         if (e)
             log_1.error(e);
         else
-            console.log("Followed user");
+            FOLLOW_HISTORY.push((new Date()).getTime());
     });
 }
 function unfollow(user) {
-    console.log("Unfollowing", user.id);
-    t_client.post('friendships/destroy', { user_id: user.id }, function (e, user, raw) {
+    var time_diff = (new Date()).getTime() - (new Date(user.created_date)).getTime();
+    if (time_diff < 1000 * 60 * 60 * 24 * 50)
+        return;
+    t_client.post('friendships/destroy', { user_id: user.id_str }, function (e, u, raw) {
         if (e)
             log_1.error(e);
-        else
-            log_1.log("Unfollowed user");
     });
 }
 function unfollowBatch(name) {
-    console.log("Starting masse unfollow");
-    t_client.get('friends/list', { screen_name: name }, function (e, answer, raw) {
+    log_1.log("Starting masse unfollow");
+    t_client.get('friends/list', { screen_name: name, include_user_entities: false, skip_status: true, count: 40 }, function (e, answer, raw) {
         if (e)
             log_1.error(e);
         else
@@ -60,26 +66,26 @@ function unfollowBatch(name) {
     });
 }
 function retweet(tweet) {
-    t_client.post('statuses/retweet', { id: tweet.id_str }, function (e, tweet, raw) {
-        if (!e)
-            console.log("Retweeted");
-        else
+    t_client.post('statuses/retweet', { id: tweet.id_str }, function (e, t, raw) {
+        if (e)
             log_1.error(e);
     });
 }
 function engage(tweet) {
-    log_1.log("Engage tweet");
-    console.log("Engage tweet");
     if (!isTweet(tweet))
         return;
     if (tweet.retweeted_status)
-        tweet = tweet.retweeted_status;
+        return;
     if (tweet.quoted_status)
-        tweet = tweet.quoted_status;
-    if (!tweet.retweeted)
-        retweet(tweet);
-    if (tweet.text.search(/follow/i) != -1)
-        follow(tweet.user);
-    log_1.log("Done");
+        return;
+    if (tweet.retweeted)
+        return;
+    if (tweet.user.followers_count < tweet.user.friends_count)
+        return;
+    if (tweet.text.toLowerCase().includes('steam'))
+        return;
+    log_1.success("Engage tweet " + tweet.id_str + " " + tweet.user.screen_name);
+    retweet(tweet);
+    follow(tweet.user);
 }
-console.log("Streaming started");
+console.log("Streaming started: ", SEARCHS);
