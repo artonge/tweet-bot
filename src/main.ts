@@ -45,7 +45,7 @@ function canFollow(): boolean {
 
 function follow(user: any) {
 	if (user.following) { error("Allready following");   return; }
-	if (!canFollow())   { error("Follow limit reached"); return; }
+	if (!canFollow())   { /*error("Follow limit reached");*/ return; }
 
 	t_client.post('friendships/create', {user_id: user.id_str},  function(e: any, u: any, raw: any) {
 		if (e) error(e);
@@ -63,7 +63,7 @@ function unfollow(user: any) {
 }
 
 function unfollowBatch(name: any) {
-	log("Starting masse unfollow");
+	// log("Starting masse unfollow");
 	t_client.get('friends/list', {screen_name: name, include_user_entities: false, skip_status: true, count: 40},  function(e: any, answer: any, raw: any) {
 		if (e) error(e);
 		else for (let user of answer.users) unfollow(user);
