@@ -82,6 +82,7 @@ function engage(tweet: any) {
 			tweet.retweeted_status || // If the tweet is a retweet
 			tweet.quoted_status ||  // If the tweet is a quote
 			tweet.retweeted || // If the tweet has allready been retweeted,
+			tweet.user.followers_count < 500 || // The author need to have a least 500 folowers
 			tweet.user.followers_count*1.5 < tweet.user.friends_count || // The author need to have 0.5 more followers than subscriptions
 			tweet.text.toLowerCase().includes('steam')) return; // If it's for a steam key
 
