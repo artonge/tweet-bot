@@ -13,12 +13,12 @@ const SEARCHS: string = [
 
 const FOLLOW_HISTORY: Array<number> = [];
 
-const WINDOW_DURATION = 15 * 60 * 1000; // 15 min
+const MIN_15 = 15 * 60 * 1000; // 15 min
 
 const t_client = new Twitter(credentials);
 
 // A new unfollow batch every 15 min
-setInterval(function() { unfollowBatch("tulipe_fragile") }, WINDOW_DURATION);
+setInterval(function() { unfollowBatch("tulipe_fragile") }, MIN_15);
 
 
 var stream = t_client.stream('statuses/filter', {track: SEARCHS});
@@ -37,7 +37,7 @@ function canFollow(): boolean {
 		// Difference between latest request and now
 		let time_diff: number = FOLLOW_HISTORY[0] - (new Date()).getTime();
 		// If the latest request have been made less than 15 minutes ago, return false
-		if (time_diff < WINDOW_DURATION) return false;
+		if (time_diff < MIN_15) return false;
 	}
 
 	return true;
@@ -55,7 +55,7 @@ function follow(user: any) {
 
 function unfollow(user: any) {
 	const time_diff: number = (new Date()).getTime() - (new Date(user.created_date)).getTime();
-	if (time_diff < 1000*60*60*24*50) return; // Return if friendship was created less than 5 days agos
+	if (time_diff < MIN_15) return; // Return if friendship was created less than 5 days agos
 
 	t_client.post('friendships/destroy', {user_id: user.id_str},  function(e: any, u: any, raw: any) {
 		if (e) error(e);
@@ -85,9 +85,11 @@ function engage(tweet: any) {
 	if (tweet.user.followers_count < tweet.user.friends_count) return; // If the author has less follower than he is following, return
 	if (tweet.text.toLowerCase().includes('steam')) return; // If it's for a steam key
 
-	success("Engage tweet " + tweet.id_str + " " + tweet.user.screen_name);
-	retweet(tweet);
-	follow(tweet.user);
+	setTimeout(()=> {
+		success("Engage tweet " + tweet.id_str + " " + tweet.user.screen_name);
+		retweet(tweet);
+		follow(tweet.user);
+	}, 1000*60*15); // Engage 15 minutes later to act more like a normal person
 }
 
 
