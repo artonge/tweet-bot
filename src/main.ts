@@ -90,7 +90,7 @@ function engage(tweet: Twit.Twitter.Status) {
 		log.engagement("Engage tweet " + tweet.id_str + " " + tweet.user.screen_name);
 		retweet(tweet);
 		follow(tweet.user);
-	}, 1); // Engage 15 minutes later to act more like a normal person
+	}, MIN_15); // Engage 15 minutes later to act more like a normal person
 }
 
 
