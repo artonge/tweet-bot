@@ -1,5 +1,9 @@
 {
   "globalDependencies": {
+    "geojson": "registry:dt/geojson#0.0.0+20160619034323",
     "node": "registry:dt/node#6.0.0+20160915134512"
+  },
+  "dependencies": {
+    "twit": "registry:npm/twit#2.0.0+20160422171648"
   }
 }
