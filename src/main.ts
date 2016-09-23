@@ -83,7 +83,6 @@ function engage(tweet: any) {
 			tweet.quoted_status ||  // If the tweet is a quote
 			tweet.retweeted || // If the tweet has allready been retweeted,
 			tweet.user.followers_count*1.5 < tweet.user.friends_count || // The author need to have 0.5 more followers than subscriptions
-			tweet.user.screen_name.search(/b(o|0)t/i) || // The author might be a bot spooter. Shit bag
 			tweet.text.toLowerCase().includes('steam')) return; // If it's for a steam key
 
 	setTimeout(()=> {
