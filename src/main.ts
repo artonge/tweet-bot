@@ -5,10 +5,10 @@ import { log, success, error } from './log';
 
 
 const SEARCHS: string = [
-  "retweet a gagner follow",
-  "retweet to win follow",
-  "RT to win follow",
-  "RT concours follow"
+  "retweet a gagner",
+  "retweet to win",
+  "RT to win",
+  "RT concours"
 ].join(',');
 
 const FOLLOW_HISTORY: Array<number> = [];
@@ -82,7 +82,7 @@ function engage(tweet: any) {
 	if (tweet.retweeted_status) return; // If the tweet is a retweet
 	if (tweet.quoted_status) return;  // If the tweet is a quote
 	if (tweet.retweeted) return; // If the tweet has allready been retweeted,
-	if (tweet.user.followers_count < tweet.user.friends_count) return; // If the author has less follower than he is following, return
+	if (tweet.user.followers_count*1.5 < tweet.user.friends_count) return; // The author need to have 0.5 more followers than subscriptions
 	if (tweet.text.toLowerCase().includes('steam')) return; // If it's for a steam key
 
 	setTimeout(()=> {
