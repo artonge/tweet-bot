@@ -1,7 +1,7 @@
 import * as Twit from 'twit';
 
 import { credentials } from './credentials';
-import { log, success, error } from './log';
+import { log } from './log';
 
 
 const SEARCHS: [string] = [
@@ -22,13 +22,14 @@ setInterval(function() { unfollowBatch("tulipe_fragile") }, MIN_15);
 
 
 var stream = T.stream('statuses/filter', <Twit.Params>{ track: SEARCHS });
-stream.on('connected', ()=>success("connected"));
-stream.on('reconnect', ()=>success("reconnect"));
 stream.on('tweet', engage);
-stream.on('disconnect', ()=>success("disconnect"));
-stream.on('limit', (limit_object: any)=>success("disconnect" + limit_object.toString()));
-stream.on('warning', (warning_object: any)=>success("disconnect" + warning_object.toString()));
-stream.on('blocked', (blocked_object: any)=>success("disconnect" + blocked_object.toString()));
+
+stream.on('connected', ()=>log.timeline("connected"));
+stream.on('reconnect', ()=>log.timeline("reconnect"));
+stream.on('disconnect', (disconnect_object: any)=>log.timeline("disconnect" + JSON.stringify(disconnect_object)));
+stream.on('limit'     , (limit_object:      any)=>log.warning( "limit"      + JSON.stringify(limit_object     )));
+stream.on('warning'   , (warning_object:    any)=>log.warning( "warning"    + JSON.stringify(warning_object   )));
+stream.on('blocked'   , (blocked_object:    any)=>log.warning( "blocked"    + JSON.stringify(blocked_object   )));
 
 
 function canFollow(): boolean {
@@ -43,11 +44,11 @@ function canFollow(): boolean {
 }
 
 function follow(user: Twit.Twitter.User) {
-	if (user.following) { error("Allready following");   return; }
+	if (user.following) { log.error("Allready following");   return; }
 	if (!canFollow())   { /*error("Follow limit reached");*/ return; }
 
 	T.post('friendships/create', <Twit.Params>{ user_id: user.id_str },  function(e: any, u: any, raw: any) {
-		if (e) error(e);
+		if (e) log.error(e);
 		else FOLLOW_HISTORY.push((new Date()).getTime()); // Add the request in history
 	});
 }
@@ -57,21 +58,21 @@ function unfollow(user: Twit.Twitter.User) {
 	if (time_diff < MIN_15) return; // Return if friendship was created less than 5 days agos
 
 	T.post('friendships/destroy', <Twit.Params>{ user_id: user.id_str },  function(e: any, u: any, raw: any) {
-		if (e) error(e);
+		if (e) log.error(e);
 	});
 }
 
 function unfollowBatch(name: string) {
 	// log("Starting masse unfollow");
 	T.get('friends/list', <Twit.Params>{ screen_name: name, include_user_entities: false, skip_status: true, count: 40 },  function(e: any, answer: any, raw: any) {
-		if (e) error(e);
+		if (e) log.error(e);
 		else for (let user of <[Twit.Twitter.User]>answer.users) unfollow(user);
 	});
 }
 
 function retweet(tweet: Twit.Twitter.Status) {
 	T.post('statuses/retweet', { id: tweet.id_str },  function(e: any, t: any, raw: any) {
-		if (e) error(e);
+		if (e) log.error(e);
 	});
 }
 
@@ -86,7 +87,7 @@ function engage(tweet: Twit.Twitter.Status) {
 			tweet.text.toLowerCase().search(/steam/i) != -1) return; // it's for a steam key
 
 	setTimeout(()=> {
-		success("Engage tweet " + tweet.id_str + " " + tweet.user.screen_name);
+		log.engagement("Engage tweet " + tweet.id_str + " " + tweet.user.screen_name);
 		retweet(tweet);
 		follow(tweet.user);
 	}, 1); // Engage 15 minutes later to act more like a normal person

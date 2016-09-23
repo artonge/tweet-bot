@@ -1,14 +1,21 @@
 import * as fs from 'fs';
 
-export function log(text: any, file: string = "log.json") {
-  // return; // prevent log, to remove if debug
 
-  file = "logs/"+file;
+class Log {
 
-  if (typeof text === "object") text = JSON.stringify(text);
+	private log(text: any, file: string = "log.json") {
+	  file = "logs/"+file;
 
-  fs.appendFile(file, new Date() + " | " + text + "\n");
+	  if (typeof text === "object") text = JSON.stringify(text);
+
+	  fs.appendFile(file, new Date() + " | " + text + "\n");
+	}
+
+	engagement(text: string) { this.log(text, "engagement.json"); }
+	error     (text: string) { this.log(text, "error.json"     ); }
+	warning   (text: string) { this.log(text, "warning.json"   ); }
+	timeline  (text: string) { this.log(text, "timeline.json"     ); }
 }
 
-export function success(text: string) { log(text, "success.json"); }
-export function error  (text: string) { log(text, "error.json"  ); }
+
+export const log = new Log();
