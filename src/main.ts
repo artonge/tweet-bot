@@ -78,13 +78,13 @@ function retweet(tweet: any) {
 
 function engage(tweet: any) {
 	// Prevent useless engagement
-	if (!isTweet(tweet)) return; // If it's not a tweet, return
-	if (tweet.retweeted_status) return; // If the tweet is a retweet
-	if (tweet.quoted_status) return;  // If the tweet is a quote
-	if (tweet.retweeted) return; // If the tweet has allready been retweeted,
-	if (tweet.user.followers_count*1.5 < tweet.user.friends_count) return; // The author need to have 0.5 more followers than subscriptions
-	if (tweet.user.screen_name.search(/b(o|0)t/i)) return; // The author might be a bot spooter. Shit bag
-	if (tweet.text.toLowerCase().includes('steam')) return; // If it's for a steam key
+	if (!isTweet(tweet) || // If it's not a tweet, return
+			tweet.retweeted_status || // If the tweet is a retweet
+			tweet.quoted_status ||  // If the tweet is a quote
+			tweet.retweeted || // If the tweet has allready been retweeted,
+			tweet.user.followers_count*1.5 < tweet.user.friends_count || // The author need to have 0.5 more followers than subscriptions
+			tweet.user.screen_name.search(/b(o|0)t/i) || // The author might be a bot spooter. Shit bag
+			tweet.text.toLowerCase().includes('steam')) return; // If it's for a steam key
 
 	setTimeout(()=> {
 		success("Engage tweet " + tweet.id_str + " " + tweet.user.screen_name);
