@@ -91,7 +91,7 @@ function engage(tweet: Twit.Twitter.Status) {
 	setTimeout(()=> {
 		retweet(tweet);
 		follow(tweet.user);
-	}, 0); // Engage 15 minutes later to act more like a normal person
+	}, MIN_15); // Engage 15 minutes later to act more like a normal person
 }
 
 
