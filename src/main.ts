@@ -20,33 +20,39 @@ const MIN_15 = 15 * 60 * 1000; // 15 min
 const T: Twit = new Twit(credentials);
 
 // A new unfollow batch every 15 min
-setInterval(function() { unfollowBatch("tulipe_fragile") }, MIN_15);
+// TODO - Apparently created_date is not the date of creation of the friendship but the one of the user
+// setInterval(function() { unfollowBatch("tulipe_fragile") }, MIN_15);
 
 
-var stream = T.stream('statuses/filter', <Twit.Params>{ track: SEARCHS });
+let stream = T.stream('statuses/filter', <Twit.Params>{ track: SEARCHS });
 stream.on('tweet', engage);
 
+stream.on('connect'  , ()=>log.timeline("connecting..."));
 stream.on('connected', ()=>log.timeline("connected"));
-stream.on('reconnect', ()=>log.timeline("reconnect"));
-stream.on('disconnect', (disconnect_object: any)=>log.timeline("disconnect" + JSON.stringify(disconnect_object)));
-stream.on('limit'     , (limit_object:      any)=>log.warning( "limit   "   + JSON.stringify(limit_object     )));
-stream.on('warning'   , (warning_object:    any)=>log.warning( "warning "   + JSON.stringify(warning_object   )));
-stream.on('blocked'   , (blocked_object:    any)=>log.warning( "blocked "   + JSON.stringify(blocked_object   )));
+stream.on('reconnect', ()=>log.timeline("reconnecting..."));
+stream.on('disconnect', (disconnect_object: any)=>log.timeline(`disconnected - JSON.stringify(disconnect_object)`));
+
+stream.on('limit'     , (limit_object:      any)=>log.warning( `limit   - ${JSON.stringify(limit_object  )}`));
+stream.on('warning'   , (warning_object:    any)=>log.warning( `warning - ${JSON.stringify(warning_object)}`));
+stream.on('blocked'   , (blocked_object:    any)=>log.warning( `blocked - ${JSON.stringify(blocked_object)}`));
+
+stream.on('error', log.error);
 
 
 function canFollow(): boolean {
-	if (FOLLOW_HISTORY.length > 15) { // If 15 requests have been made
-		// Difference between latest request and now
-		let time_diff: number = FOLLOW_HISTORY[0] - (new Date()).getTime();
-		// If the latest request have been made less than 15 minutes ago, return false
-		if (time_diff < MIN_15) return false;
-	}
+	FOLLOW_HISTORY.shift();
 
-	return true;
+	// If the latest request have been made more than 15 minutes ago, it's true
+	function olderThan15Min(time: number) { return time - (new Date()).getTime() > MIN_15; }
+
+	// Remove follows that are older than 15min.
+	while (olderThan15Min(FOLLOW_HISTORY[0])) FOLLOW_HISTORY.shift();
+
+	return FOLLOW_HISTORY.length < 15; // If FOLLOW_HISTORY contains 15 items, then none of them are more than 15min old
 }
 
 function follow(user: Twit.Twitter.User) {
-	if (user.following || !canFollow()) return;
+	if (!canFollow()) return;
 
 	T.post('friendships/create', <Twit.Params>{ user_id: user.id_str },  function(e: any, u: any, raw: any) {
 		if (e) log.error(e);
@@ -56,7 +62,7 @@ function follow(user: Twit.Twitter.User) {
 
 function unfollow(user: Twit.Twitter.User) {
 	const time_diff: number = (new Date()).getTime() - (new Date((<any>user).created_date)).getTime();
-	if (time_diff > 1000*60*60*24*100) return; // Return if friendship was created less than 100 days agos
+	if (time_diff < 1000*60*60*24*200) return; // Return if friendship was created less than 200 days agos
 
 	T.post('friendships/destroy', <Twit.Params>{ user_id: user.id_str },  function(e: any, u: any, raw: any) {
 		if (e) log.error(e);
@@ -89,7 +95,7 @@ function engage(tweet: Twit.Twitter.Status) {
 			tweet.user.followers_count < tweet.user.friends_count*1.3 || // need to have 0.3 more followers than subscriptions
 			tweet.text.search(/steam/i) != -1) return; // it's for a steam key
 
-	log.engagement("Engage tweet " + tweet.id_str + " " + tweet.user.screen_name);
+	log.engagement("Engage tweet " + tweet.id_str + " " + tweet.user.screen_name + " | " + tweet.user.follow_request_sent);
 	setTimeout(()=> {
 		retweet(tweet);
 		follow(tweet.user);
