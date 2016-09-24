@@ -1,3 +1,5 @@
+// TODO - favorite (see tweet : 779670613203890178)
+
 import * as Twit from 'twit';
 
 import { credentials } from './credentials';
@@ -54,7 +56,7 @@ function follow(user: Twit.Twitter.User) {
 
 function unfollow(user: Twit.Twitter.User) {
 	const time_diff: number = (new Date()).getTime() - (new Date((<any>user).created_date)).getTime();
-	if (time_diff < 1000*60*60*24*100) return; // Return if friendship was created less than 100 days agos
+	if (time_diff > 1000*60*60*24*100) return; // Return if friendship was created less than 100 days agos
 
 	T.post('friendships/destroy', <Twit.Params>{ user_id: user.id_str },  function(e: any, u: any, raw: any) {
 		if (e) log.error(e);
