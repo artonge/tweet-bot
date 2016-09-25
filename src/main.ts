@@ -1,5 +1,3 @@
-// TODO - favorite (see tweet : 779670613203890178)
-
 import * as Twit from 'twit';
 
 import { credentials } from './credentials';
@@ -83,6 +81,12 @@ function retweet(tweet: Twit.Twitter.Status) {
 	});
 }
 
+function favorite(tweet: Twit.Twitter.Status) {
+	T.post('favorites/create', { id: tweet.id_str },  function(e: any, t: any, raw: any) {
+		if (e) log.error(e);
+	});
+}
+
 function engage(tweet: Twit.Twitter.Status) {
 	// Prevent useless engagement
 	if (tweet.retweeted_status || // is a retweet
@@ -99,6 +103,7 @@ function engage(tweet: Twit.Twitter.Status) {
 	setTimeout(()=> {
 		retweet(tweet);
 		follow(tweet.user);
+		if (tweet.text.search(/favorite/i)) favorite(tweet); // Favorite tweet if needed
 	}, MIN_15); // Engage 15 minutes later to act more like a normal person
 }
 
