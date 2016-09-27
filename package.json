@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/artonge/tweet-bot/issues"
   },
-  "homepage": "https://github.com/artonge/tweet-bot"
+  "homepage": "https://github.com/artonge/tweet-bot",
+  "devDependencies": {
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0"
+  }
 }
