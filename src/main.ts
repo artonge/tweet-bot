@@ -34,7 +34,7 @@ stream.on('limit'  , (limit_object:   any)=> log.warning( `limit   - ${JSON.stri
 stream.on('warning', (warning_object: any)=> log.warning( `warning - ${JSON.stringify(warning_object)}`));
 stream.on('blocked', (blocked_object: any)=> log.warning( `blocked - ${JSON.stringify(blocked_object)}`));
 
-stream.on('error', (error)=> log.error(error));
+stream.on('error', log.error);
 
 
 function canFollow(): boolean {

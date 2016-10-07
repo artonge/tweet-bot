@@ -11,10 +11,10 @@ class Log {
 	  fs.appendFile(file, new Date() + " | " + text + "\n");
 	}
 
-	engagement(text : string) { this.log(text, "engagement.json"); }
-	error     (error: any   ) { this.log(`error: [${error.code}] ${error.message}`, "error.json" ); }
-	warning   (text : string) { this.log(text, "warning.json"   ); }
-	timeline  (text : string) { this.log(text, "timeline.json"     ); }
+	engagement = (text: string)=> { this.log(text, "engagement.json"); }
+	warning    = (text: string)=> { this.log(text, "warning.json"   ); }
+	timeline   = (text: string)=> { this.log(text, "timeline.json"  ); }
+	error      = (error: any  )=> { this.log(`error: [${error.code}] ${error.message}`, "error.json"); }
 }
 
 
