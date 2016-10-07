@@ -103,7 +103,7 @@ function engage(tweet: Twit.Twitter.Status) {
 	setTimeout(()=> {
 		retweet(tweet);
 		follow(tweet.user);
-		if (tweet.text.search(/favorite/i)) favorite(tweet); // Favorite tweet if needed
+		if (tweet.text.search(/favorite/i) != -1) favorite(tweet); // Favorite tweet if needed
 	}, MIN_15); // Engage 15 minutes later to act more like a normal person
 }
 
