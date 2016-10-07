@@ -25,16 +25,16 @@ const T: Twit = new Twit(credentials);
 let stream = T.stream('statuses/filter', <Twit.Params>{ track: SEARCHS });
 stream.on('tweet', engage);
 
-stream.on('connect'  , ()=>log.timeline("connecting..."));
-stream.on('connected', ()=>log.timeline("connected"));
-stream.on('reconnect', ()=>log.timeline("reconnecting..."));
-stream.on('disconnect', (disconnect_object: any)=>log.timeline(`disconnected - JSON.stringify(disconnect_object)`));
+stream.on('connect'   , ()=> log.timeline("connecting..."));
+stream.on('connected' , ()=> log.timeline("connected"));
+stream.on('reconnect' , ()=> log.timeline("reconnecting..."));
+stream.on('disconnect', (disconnect_object: any)=> log.timeline(`disconnected - JSON.stringify(disconnect_object)`));
 
-stream.on('limit'     , (limit_object:      any)=>log.warning( `limit   - ${JSON.stringify(limit_object  )}`));
-stream.on('warning'   , (warning_object:    any)=>log.warning( `warning - ${JSON.stringify(warning_object)}`));
-stream.on('blocked'   , (blocked_object:    any)=>log.warning( `blocked - ${JSON.stringify(blocked_object)}`));
+stream.on('limit'  , (limit_object:   any)=> log.warning( `limit   - ${JSON.stringify(limit_object  )}`));
+stream.on('warning', (warning_object: any)=> log.warning( `warning - ${JSON.stringify(warning_object)}`));
+stream.on('blocked', (blocked_object: any)=> log.warning( `blocked - ${JSON.stringify(blocked_object)}`));
 
-stream.on('error', log.error);
+stream.on('error', (error)=> log.error(error));
 
 
 function canFollow(): boolean {
