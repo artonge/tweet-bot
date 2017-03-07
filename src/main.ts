@@ -90,14 +90,14 @@ function favorite(tweet: Twit.Twitter.Status) {
 function engage(tweet: Twit.Twitter.Status) {
 	// Prevent useless engagement
 	if (tweet.retweeted_status || // is a retweet
-			tweet.quoted_status ||  // is a quote
-			tweet.retweeted || // allready been retweeted
-			tweet.in_reply_to_status_id || // is a reply
-			tweet.user.screen_name.search(/b(o|0)t/i) != -1 || // might be a bot spooter. Shit bag
-			tweet.text.search(/bet/i) != -1 || // probably an ad for betting site
-			tweet.user.followers_count < 2000 || // need to have a least 500 folowers
-			tweet.user.followers_count < tweet.user.friends_count*1.5 || // need to have 0.3 more followers than subscriptions
-			tweet.text.search(/steam/i) != -1) return; // it's for a steam key
+	    tweet.quoted_status ||  // is a quote
+	    tweet.retweeted || // allready been retweeted
+	    tweet.in_reply_to_status_id || // is a reply
+	    tweet.user.screen_name.search(/b(o|0)t/i) != -1 || // might be a bot spooter. Shit bag
+	    tweet.text.search(/bet/i) != -1 || // probably an ad for betting site
+	    tweet.user.followers_count < 2000 || // need to have a least 500 folowers
+	    tweet.user.followers_count < tweet.user.friends_count*1.5 || // need to have 0.3 more followers than subscriptions
+	    tweet.text.search(/steam/i) != -1) return; // it's for a steam key
 
 	log.engagement("Engage tweet " + tweet.id_str + " " + tweet.user.screen_name + " | " + tweet.user.follow_request_sent);
 	setTimeout(()=> {
