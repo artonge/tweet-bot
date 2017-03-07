@@ -4,5 +4,4 @@ typings
 logs
 dist
 src/credentials.ts
-dist/credentials.js
 npm-debug.log
