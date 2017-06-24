@@ -3,5 +3,4 @@ node_modules
 typings
 logs
 dist
-src/credentials.ts
 npm-debug.log
