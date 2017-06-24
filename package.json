@@ -11,6 +11,9 @@
     "postinstall": "tsc",
     "test": "true"
   },
+  "engines": {
+    "node": "8.1.2"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/artonge/tweet-bot.git"
