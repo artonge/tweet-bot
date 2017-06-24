@@ -6,11 +6,6 @@
 		"preserveConstEnums": true,
 		"outDir": "dist"
 	},
-	"filesGlob": [
-		"src/**/*.ts",
-		"typings/index.d.ts"
-	],
-	"exclude": [
-		"node_modules"
-	]
+	"include": [ "src/**/*.ts" ],
+	"exclude": [ "node_modules" ]
 }

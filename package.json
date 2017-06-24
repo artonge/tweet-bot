@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/artonge/tweet-bot",
   "devDependencies": {
+    "@types/twit": "^2.2.5",
     "typescript": "^2.0.3",
     "typings": "^1.4.0"
   }

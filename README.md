@@ -2,7 +2,7 @@
 A bot that participates to twitter retweet contests.
 
 
-INFOS
+# Notes
 If a want to follow an account for 40 days after I enter a contest, knowing that I can't have more than 5000 subscriptions,
 5000/40/24 = 125/24 ~= 5 ==> I can't enter more than 5 contests by hour.
 
@@ -21,10 +21,8 @@ export const credentials = {
 
 # INSTALL
 clone repo then :
-- `npm i tsc -g`
-- `npm i typings -g`
-- `npm i`
+- `yarn`
 
 
 # RUN
-`npm start`
+`yarn start`

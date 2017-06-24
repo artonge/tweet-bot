@@ -4,11 +4,22 @@ import * as fs from 'fs';
 class Log {
 
 	private log(text: any, file: string = "log.json") {
-	  file = "logs/"+file;
-
-	  if (typeof text === "object") text = JSON.stringify(text);
-
-	  fs.appendFile(file, new Date() + " | " + text + "\n");
+		// If in production on heroku don't log in files
+		if (process.env.production) {
+			switch (file) {
+				case "warning.json":
+					console.warn(text)
+				case "error.json":
+					console.error(text)
+					break
+				default:
+					console.log(text)
+			}
+		} else {
+			file = "logs/"+file;
+			if (typeof text === "object") text = JSON.stringify(text);
+			fs.appendFile(file, new Date() + " | " + text + "\n");
+		}
 	}
 
 	engagement = (text: string)=> { this.log(text, "engagement.json"); }
