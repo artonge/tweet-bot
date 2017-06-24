@@ -8,7 +8,7 @@
   "homepage": "https://github.com/artonge/tweet-bot",
   "scripts": {
     "start": "node dist/main.js",
-    "postinstall": "yarn run tsc",
+    "postinstall": "ls node_modules/.bin; yarn run tsc",
     "test": "true"
   },
   "engines": {
