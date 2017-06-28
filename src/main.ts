@@ -2,7 +2,7 @@ import * as Twit from 'twit';
 
 import { credentials } from './credentials';
 import { log } from './log';
-import stathat from 'stathat';
+const stathat = require('stathat');
 
 const SEARCHS: [string] = [
   "retweet gagne follow"   , "RT gagne follow"   ,
@@ -52,7 +52,7 @@ function canFollow(): boolean {
 function follow(user: Twit.Twitter.User) {
 	if (!canFollow()) return;
 	
-	stathat.trackEZCount("artonge.c@gmail.com", "follow", 1, function(status, json) {
+	stathat.trackEZCount("artonge.c@gmail.com", "follow", 1, function(status: any, json: any) {
 		console.log("follow", status, json)
 	});
 
@@ -80,7 +80,7 @@ function unfollowBatch(name: string) {
 		if (e) log.error(e);
 		else for (let user of <[Twit.Twitter.User]>answer.users) unfollow(user);
 		*/
-		stathat.trackEZCount("artonge.c@gmail.com", "unfollow", answer.users.length, function(status, json) {
+		stathat.trackEZCount("artonge.c@gmail.com", "unfollow", answer.users.length, function(status: any, json: any) {
 			console.log("unfollow", status, json)
 		});
 
@@ -89,7 +89,7 @@ function unfollowBatch(name: string) {
 
 function retweet(tweet: Twit.Twitter.Status) {
 
-	stathat.trackEZCount("artonge.c@gmail.com", "retweet", 1, function(status, json) {
+	stathat.trackEZCount("artonge.c@gmail.com", "retweet", 1, function(status: any, json: any) {
 		console.log("retweet", status, json)
 	});
 
@@ -102,7 +102,7 @@ function retweet(tweet: Twit.Twitter.Status) {
 
 function favorite(tweet: Twit.Twitter.Status) {
 
-	stathat.trackEZCount("artonge.c@gmail.com", "favorite", 1, function(status, json) {
+	stathat.trackEZCount("artonge.c@gmail.com", "favorite", 1, function(status: any, json: any) {
 		console.log("favorite", status, json)
 	});
 
