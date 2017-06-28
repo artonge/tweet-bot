@@ -52,9 +52,7 @@ function canFollow(): boolean {
 function follow(user: Twit.Twitter.User) {
 	if (!canFollow()) return;
 	
-	stathat.trackEZCount("artonge.c@gmail.com", "follow", 1, function(status: any, json: any) {
-		console.log("follow", status, json)
-	});
+	stathat.trackEZCount("artonge.c@gmail.com", "follow", 1);
 
 	/*
 	T.post('friendships/create', <Twit.Params>{ user_id: user.id_str },  function(e: any, u: any, raw: any) {
@@ -80,18 +78,14 @@ function unfollowBatch(name: string) {
 		if (e) log.error(e);
 		else for (let user of <[Twit.Twitter.User]>answer.users) unfollow(user);
 		*/
-		stathat.trackEZCount("artonge.c@gmail.com", "unfollow", answer.users.length, function(status: any, json: any) {
-			console.log("unfollow", status, json)
-		});
+		stathat.trackEZCount("artonge.c@gmail.com", "unfollow", answer.users.length,);
 
 	});
 }
 
 function retweet(tweet: Twit.Twitter.Status) {
 
-	stathat.trackEZCount("artonge.c@gmail.com", "retweet", 1, function(status: any, json: any) {
-		console.log("retweet", status, json)
-	});
+	stathat.trackEZCount("artonge.c@gmail.com", "retweet", 1);
 
 	/*
 	T.post('statuses/retweet', { id: tweet.id_str },  function(e: any, t: any, raw: any) {
@@ -102,9 +96,7 @@ function retweet(tweet: Twit.Twitter.Status) {
 
 function favorite(tweet: Twit.Twitter.Status) {
 
-	stathat.trackEZCount("artonge.c@gmail.com", "favorite", 1, function(status: any, json: any) {
-		console.log("favorite", status, json)
-	});
+	stathat.trackEZCount("artonge.c@gmail.com", "favorite", 1);
 
 	/*
 	T.post('favorites/create', { id: tweet.id_str },  function(e: any, t: any, raw: any) {
