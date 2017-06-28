@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-
+const stathat = require('stathat')
 
 class Log {
 
@@ -8,8 +8,11 @@ class Log {
 		if (process.env.production) {
 			switch (file) {
 				case "warning.json":
+					stathat.trackEZCount("artonge.c@gmail.com", "warning", 1);
 					console.warn(text)
+					break
 				case "error.json":
+					stathat.trackEZCount("artonge.c@gmail.com", "error", 1);
 					console.error(text)
 					break
 				default:
