@@ -95,6 +95,7 @@ function retweet(tweet: Twit.Twitter.Status) {
 }
 
 function favorite(tweet: Twit.Twitter.Status) {
+	if (tweet.text.search(/favorite/i) == -1) return
 
 	stathat.trackEZCount("artonge.c@gmail.com", "favorite", 1);
 
@@ -121,7 +122,7 @@ function engage(tweet: Twit.Twitter.Status) {
 	setTimeout(()=> {
 		retweet(tweet);
 		follow(tweet.user);
-		if (tweet.text.search(/favorite/i) != -1) favorite(tweet); // Favorite tweet if needed
+		favorite(tweet); // Favorite tweet if needed
 	}, MIN_15); // Engage 15 minutes later to act more like a normal person
 }
 
