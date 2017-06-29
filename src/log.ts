@@ -1,5 +1,11 @@
 import * as fs from 'fs';
 const stathat = require('stathat')
+const logger  = require('winston')
+const logsene = require('winston-logsene')
+
+logger.add(logsene, {
+  token: '2b08b143-bbe6-494b-9196-a81654b93306',
+});
 
 class Log {
 
@@ -9,14 +15,14 @@ class Log {
 			switch (file) {
 				case "warning.json":
 					stathat.trackEZCount("artonge.c@gmail.com", "warning", 1);
-					console.warn(text)
+					logger.warn(text)
 					break
 				case "error.json":
 					stathat.trackEZCount("artonge.c@gmail.com", "error", 1);
-					console.error(text)
+					logger.error(text)
 					break
 				default:
-					console.log(text)
+					logger.info(text)
 			}
 		} else {
 			file = "logs/"+file;
