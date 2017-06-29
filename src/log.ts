@@ -5,7 +5,7 @@ const logger  = require('winston')
 const logsene = require('winston-logsene')
 
 logger.add(logsene, {
-  token: '2b08b143-bbe6-494b-9196-a81654b93306',
+  token: process.env.sematext,
 });
 
 class Log {
