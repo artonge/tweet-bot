@@ -1,8 +1,8 @@
 import * as Twit from 'twit';
+const stathat = require('stathat');
 
 import { credentials } from './credentials';
 import { log } from './log';
-
 
 const SEARCHS: [string] = [
   "retweet gagne follow"   , "RT gagne follow"   ,
@@ -52,6 +52,8 @@ function canFollow(): boolean {
 function follow(user: Twit.Twitter.User) {
 	if (!canFollow()) return;
 
+	stathat.trackEZCount("artonge.c@gmail.com", "follow", 1);
+
 	T.post('friendships/create', <Twit.Params>{ user_id: user.id_str },  function(e: any, u: any, raw: any) {
 		if (e) log.error(e);
 		else FOLLOW_HISTORY.push((new Date()).getTime()); // Add the request in history
@@ -72,16 +74,25 @@ function unfollowBatch(name: string) {
 	T.get('friends/list', <Twit.Params>{ screen_name: name, include_user_entities: false, skip_status: true, count: 40 },  function(e: any, answer: any, raw: any) {
 		if (e) log.error(e);
 		else for (let user of <[Twit.Twitter.User]>answer.users) unfollow(user);
+		stathat.trackEZCount("artonge.c@gmail.com", "unfollow", answer.users.length,);
+
 	});
 }
 
 function retweet(tweet: Twit.Twitter.Status) {
+
+	stathat.trackEZCount("artonge.c@gmail.com", "retweet", 1);
+
 	T.post('statuses/retweet', { id: tweet.id_str },  function(e: any, t: any, raw: any) {
 		if (e) log.error(e);
 	});
 }
 
 function favorite(tweet: Twit.Twitter.Status) {
+	if (tweet.text.search(/favorite/i) == -1) return
+
+	stathat.trackEZCount("artonge.c@gmail.com", "favorite", 1);
+
 	T.post('favorites/create', { id: tweet.id_str },  function(e: any, t: any, raw: any) {
 		if (e) log.error(e);
 	});
@@ -103,7 +114,7 @@ function engage(tweet: Twit.Twitter.Status) {
 	setTimeout(()=> {
 		retweet(tweet);
 		follow(tweet.user);
-		if (tweet.text.search(/favorite/i) != -1) favorite(tweet); // Favorite tweet if needed
+		favorite(tweet); // Favorite tweet if needed
 	}, MIN_15); // Engage 15 minutes later to act more like a normal person
 }
 

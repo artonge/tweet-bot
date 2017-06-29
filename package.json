@@ -22,7 +22,8 @@
     "url": "https://github.com/artonge/tweet-bot/issues"
   },
   "dependencies": {
-    "twit": "^2.2.5"
+    "twit": "^2.2.5",
+    "stathat": "^0.0.8"
   },
   "devDependencies": {
     "@types/twit": "^2.2.5",
