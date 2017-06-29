@@ -99,6 +99,7 @@ function favorite(tweet: Twit.Twitter.Status) {
 }
 
 function engage(tweet: Twit.Twitter.Status) {
+    stathat.trackEZCount("artonge.c@gmail.com", "tweet", 1);
 	// Prevent useless engagement
 	if (tweet.retweeted_status || // is a retweet
 	    tweet.quoted_status ||  // is a quote
