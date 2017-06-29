@@ -7,8 +7,8 @@
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-1.0.2.tgz#b02d10ab028e2928ac592a051aaa4981a1941d03"
 
 "@types/node@*":
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.2.tgz#8ab9456efb87d57f11d04f313d3da1041948fb4d"
+  version "8.0.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.5.tgz#71ac2a2c33a4231dd2427f1b5a5b66ad2b185b5f"
 
 "@types/twit@^2.2.5":
   version "2.2.5"
@@ -242,7 +242,7 @@ logsene-js@^1.1.9:
     mkpath "^1.0.0"
     request "^2.79.0"
     stream-buffers "^3.0.1"
-	
+
 mime-db@~1.27.0:
   version "1.27.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.27.0.tgz#820f572296bbd20ec25ed55e5b5de869e5436eb1"
@@ -340,7 +340,6 @@ stream-buffers@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/stream-buffers/-/stream-buffers-3.0.1.tgz#68a38c5faadeded79ff79988d368e3fb1325ef06"
 
-
 stringstream@~0.0.4:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/stringstream/-/stringstream-0.0.5.tgz#4e484cd4de5a0bbbee18e46307710a8a81621878"
@@ -370,8 +369,8 @@ twit@^2.2.5:
     request "^2.68.0"
 
 typescript@^2.0.3:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.0.tgz#aef5a8d404beba36ad339abf079ddddfffba86dd"
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.1.tgz#c3ccb16ddaa0b2314de031e7e6fee89e5ba346bc"
 
 uuid@^3.0.0:
   version "3.1.0"
