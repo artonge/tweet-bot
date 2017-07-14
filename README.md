@@ -26,3 +26,8 @@ clone repo then :
 
 # RUN
 `yarn start`
+
+
+# TODO
+- [ ] Add guard before following (check we're not allready following the user)
+- [ ] Change log tracker to datadog
