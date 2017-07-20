@@ -19,7 +19,7 @@ const T: Twit = new Twit(credentials);
 
 // A new unfollow batch every 15 min
 // TODO - Apparently created_date is not the date of creation of the friendship but the one of the user
-// setInterval(function() { unfollowBatch("tulipe_fragile") }, MIN_15);
+setInterval(function() { unfollowBatch("tulipe_fragile") }, MIN_15);
 
 
 let stream = T.stream('statuses/filter', <Twit.Params>{ track: SEARCHS });
