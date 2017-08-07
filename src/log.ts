@@ -28,7 +28,7 @@ class Log {
 		} else {
 			file = "logs/"+file;
 			if (typeof text === "object") text = JSON.stringify(text);
-			fs.appendFile(file, new Date() + " | " + text + "\n");
+			fs.appendFile(file, new Date() + " | " + text + "\n", () => null);
 		}
 	}
 
