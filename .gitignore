@@ -4,3 +4,4 @@ typings
 logs
 dist
 npm-debug.log
+.env
