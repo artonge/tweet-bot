@@ -73,9 +73,10 @@ function unfollowBatch(name: string) {
 	// log("Starting masse unfollow");
 	T.get('friends/list', <Twit.Params>{ screen_name: name, include_user_entities: false, skip_status: true, count: 40 },  function(e: any, answer: any, raw: any) {
 		if (e) log.error(e);
-		else for (let user of <[Twit.Twitter.User]>answer.users) unfollow(user);
-		stathat.trackEZCount("artonge.c@gmail.com", "unfollow", answer.users.length,);
-
+		else {
+			for (let user of <[Twit.Twitter.User]>answer.users) unfollow(user);
+			stathat.trackEZCount("artonge.c@gmail.com", "unfollow", answer.users.length,);
+		}
 	});
 }
 
