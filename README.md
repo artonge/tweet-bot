@@ -31,4 +31,5 @@ clone repo then :
 # TODO
 - [x] Add guard before following (check we're not allready following the user)
 - [ ] Change log tracker to datadog
+- [ ] Add DM Alert
 - [ ] Log follow action to unfollow later
