@@ -22,12 +22,13 @@
     "url": "https://github.com/artonge/tweet-bot/issues"
   },
   "dependencies": {
+    "npm-check-updates": "^2.14.2",
     "stathat": "^0.0.8",
-    "twit": "^2.2.5",
-    "winston-logsene": "^1.2.1"
+    "twit": "^2.2.11",
+    "winston-logsene": "^2.0.2"
   },
   "devDependencies": {
-    "@types/twit": "^2.2.5",
-    "typescript": "^2.0.3"
+    "@types/twit": "^2.2.20",
+    "typescript": "^3.1.3"
   }
 }
