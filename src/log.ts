@@ -8,6 +8,9 @@ import * as fs from "fs";
 //   token: process.env.sematext
 // });
 
+var StatsD = require("node-dogstatsd").StatsD;
+const dogstatsd = new StatsD();
+
 export default {
   info: (text: string) => {
     if (process.env.production) {
@@ -19,7 +22,7 @@ export default {
 
   warn: (text: string) => {
     if (process.env.production) {
-      // stathat.trackEZCount("artonge.c@gmail.com", "warning", 1);
+      dogstatsd.increment("warning");
       // logger.warn(text);
     } else {
       console.warn(text);
@@ -28,7 +31,7 @@ export default {
 
   error: (text: any) => {
     if (process.env.production) {
-      // stathat.trackEZCount("artonge.c@gmail.com", "error", 1);
+      dogstatsd.increment("error");
       // logger.error(text);
     } else {
       console.error(text);
