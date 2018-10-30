@@ -1,5 +1,9 @@
 {
 	"compilerOptions": {
+        "paths": { "*": ["types/*"] },
+        "baseUrl": ".",
+        "paths": { "*": ["types/*"] },
+        "baseUrl": ".",
 		"module": "commonjs",
 		"noImplicitAny": true,
 		"removeComments": true,
