@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "dotenv": "^6.1.0",
+    "node-dogstatsd": "^0.0.7",
     "stathat": "^0.0.8",
     "twit": "^2.2.11",
     "winston-logsene": "^2.0.2"

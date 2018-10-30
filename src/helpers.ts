@@ -1,9 +1,11 @@
 import * as Twit from "twit";
 
-// const stathat = require('stathat')
+var StatsD = require("node-dogstatsd").StatsD;
 
 import { credentials } from "./credentials";
 import logger from "./log";
+
+const dogstatsd = new StatsD();
 
 const MIN = 60 * 1000;
 const DAY = 24 * 60 * MIN;
@@ -15,11 +17,11 @@ export function connect(queries: string[]) {
   return T.stream("statuses/filter", { track: queries } as Twit.Params);
 }
 
-function getUser(screen_name: string, cb: (user: Twit.Twitter.User) => void) {
+function getUser(_screen_name: string, cb: (user: Twit.Twitter.User) => void) {
   T.get(
     "users/show",
     { screen_name: "tulipe_fragile" },
-    (error: Error, user: any, a: any) => {
+    (error: Error, user: any) => {
       if (error) {
         logger.error(error);
       } else {
@@ -79,7 +81,8 @@ function follow(user: Twit.Twitter.User) {
       if (user.following) {
         return;
       }
-      // stathat.trackEZCount("artonge.c@gmail.com", "follow", 1)
+
+      dogstatsd.increment("follow");
 
       T.post(
         "friendships/create",
@@ -123,9 +126,9 @@ function unfollowBatch(name: string) {
       } else {
         const users = answer.users as Twit.Twitter.User[];
         logger.info(`Unfollowing ${users.length} users`);
-        // stathat.trackEZCount("artonge.c@gmail.com", "unfollow", answer.users.length,)
         for (let user of users) {
           unfollow(user);
+          dogstatsd.increment("unfollow");
         }
       }
     }
@@ -133,7 +136,7 @@ function unfollowBatch(name: string) {
 }
 
 function retweet(tweet: Twit.Twitter.Status) {
-  // stathat.trackEZCount("artonge.c@gmail.com", "retweet", 1)
+  dogstatsd.increment("retweet");
 
   T.post("statuses/retweet", { id: tweet.id_str }, (error: any) => {
     if (error) {
@@ -147,7 +150,7 @@ function favorite(tweet: Twit.Twitter.Status) {
     return;
   }
 
-  // stathat.trackEZCount("artonge.c@gmail.com", "favorite", 1)
+  dogstatsd.increment("favorite");
 
   T.post("favorites/create", { id: tweet.id_str }, (error: any) => {
     if (error) logger.error(error);
@@ -155,7 +158,7 @@ function favorite(tweet: Twit.Twitter.Status) {
 }
 
 export function engage(tweet: Twit.Twitter.Status) {
-  // stathat.trackEZCount("artonge.c@gmail.com", "tweet", 1)
+  dogstatsd.increment("tweet");
   // Prevent useless engagement
   if (
     tweet.retweeted_status || // is a retweet
