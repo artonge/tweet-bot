@@ -17,18 +17,17 @@ export function connect(queries: string[]) {
   return T.stream("statuses/filter", { track: queries } as Twit.Params);
 }
 
-function getUser(_screen_name: string, cb: (user: Twit.Twitter.User) => void) {
-  T.get(
-    "users/show",
-    { screen_name: "tulipe_fragile" },
-    (error: Error, user: any) => {
-      if (error) {
-        logger.error(error);
-      } else {
-        cb(user);
-      }
+function getUser(screen_name: string, cb: (user: Twit.Twitter.User) => void) {
+  T.get("users/show", { screen_name }, (error: Error, user: any) => {
+    if (error) {
+      logger.error(error);
+    } else {
+      dogstatsd.gauge("user.subscriptions", user.friends_count);
+      dogstatsd.gauge("user.followers", user.followers_count);
+      dogstatsd.gauge("user.retweets", user.status.retweet_count);
+      cb(user);
     }
-  );
+  });
 }
 
 export function registerUnfollower() {
@@ -36,10 +35,6 @@ export function registerUnfollower() {
   setInterval(() => {
     getUser("tulipe_fragile", user => {
       // If the limit is reached, start unfollow batches every 15 minutes
-      dogstatsd.gauge("user.subscriptions", user.friends_count);
-      dogstatsd.gauge("user.followers", user.followers_count);
-      dogstatsd.gauge("user.retweets", user.status.retweet_count);
-
       if (user.friends_count > 5000) {
         dogstatsd.increment("unfollowBatch");
 

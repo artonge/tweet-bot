@@ -13,7 +13,7 @@ const dogstatsd = new StatsD();
 
 export default {
   info: (text: string) => {
-    if (process.env.PRODUCTION) {
+    if (process.env.PRODUCTION === "true") {
       // logger.info(text);
     } else {
       console.log(text);
@@ -21,7 +21,7 @@ export default {
   },
 
   warn: (text: string) => {
-    if (process.env.PRODUCTION) {
+    if (process.env.PRODUCTION === "true") {
       dogstatsd.increment("warning");
       // logger.warn(text);
     } else {
@@ -30,7 +30,7 @@ export default {
   },
 
   error: (text: any) => {
-    if (process.env.PRODUCTION) {
+    if (process.env.PRODUCTION === "true") {
       dogstatsd.increment("error");
       // logger.error(text);
     } else {
