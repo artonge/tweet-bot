@@ -36,7 +36,13 @@ export function registerUnfollower() {
   setInterval(() => {
     getUser("tulipe_fragile", user => {
       // If the limit is reached, start unfollow batches every 15 minutes
+      dogstatsd.gauge("user.subscriptions", user.friends_count);
+      dogstatsd.gauge("user.followers", user.followers_count);
+      dogstatsd.gauge("user.retweets", user.status.retweet_count);
+
       if (user.friends_count > 5000) {
+        dogstatsd.increment("unfollowBatch");
+
         const unfollowInterval = setInterval(() => {
           unfollowBatch(user.screen_name);
           // Unfollow until friends count is 0
@@ -100,6 +106,7 @@ function follow(user: Twit.Twitter.User) {
 }
 
 function unfollow(user: Twit.Twitter.User) {
+  dogstatsd.increment("unfollow");
   T.post(
     "friendships/destroy",
     { user_id: user.id_str } as Twit.Params,
@@ -128,7 +135,6 @@ function unfollowBatch(name: string) {
         logger.info(`Unfollowing ${users.length} users`);
         for (let user of users) {
           unfollow(user);
-          dogstatsd.increment("unfollow");
         }
       }
     }
