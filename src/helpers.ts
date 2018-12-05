@@ -147,10 +147,6 @@ function retweet(tweet: Twit.Twitter.Status) {
 }
 
 function favorite(tweet: Twit.Twitter.Status) {
-  if (tweet.text.search(/favorite/i) == -1) {
-    return;
-  }
-
   dogstatsd.increment("favorite");
 
   T.post("favorites/create", { id: tweet.id_str }, (error: any) => {
